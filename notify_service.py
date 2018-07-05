@@ -59,7 +59,7 @@ def bot_start(bot, update):
             "This is your id: '{}'".format(update.message.from_user.id))
         update.message.reply_text(
             "and this is the current chat id: '{}'".format(update.message.chat.id))
-    elif update.message.from_user.id != int(BOT_CFG.chat_id):
+    elif str(update.message.from_user.id) != BOT_CFG.user_id:
         update.message.reply_text("I don't want to speak with you. Bye!")
         update.message.chat.leave()
     else:
@@ -94,14 +94,14 @@ def signup():
     auth = request.headers.get("Authorization")
     if not validate_authorization(auth):
         return "You're not authorized!", 401
+    
+    BOT_CFG.user_id = request.form['user_id']
+    BOT_CFG.chat_id = request.form['chat_id']
 
     data = {
-        'user_id': blake2s(request.form['user_id'].encode("ascii")).hexdigest(),
-        'chat_id': blake2s(request.form['chat_id'].encode("ascii")).hexdigest()
+        'user_id': blake2s(BOT_CFG.user_id.encode("ascii")).hexdigest(),
+        'chat_id': blake2s(BOT_CFG.chat_id.encode("ascii")).hexdigest()
     }
-
-    BOT_CFG.user_id = data['user_id']
-    BOT_CFG.chat_id = data['chat_id']
 
     return jsonify({
         'service_token': jwt.encode(data, SERVICE_CFG.secret, algorithm='HS256').decode("utf-8")

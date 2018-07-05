@@ -54,10 +54,16 @@ def validate_authorization(string):
 def bot_start(bot, update):
     """Send a message when the command /start is issued."""
     update.message.reply_text("Hi!")
-    update.message.reply_text(
-        "This is your id: '{}'".format(update.message.from_user.id))
-    update.message.reply_text(
-        "and this is the current chat id: '{}'".format(update.message.chat.id))
+    if BOT_CFG.chat_id is None and BOT_CFG.chat_id is None:
+        update.message.reply_text(
+            "This is your id: '{}'".format(update.message.from_user.id))
+        update.message.reply_text(
+            "and this is the current chat id: '{}'".format(update.message.chat.id))
+    elif update.message.from_user.id != int(BOT_CFG.chat_id):
+        update.message.reply_text("I don't want to speak with you. Bye!")
+        update.message.chat.leave()
+    else:
+        update.message.reply_text("I'm at your command!")
 
 
 @APP.route('/botRegister', methods=['POST', 'PUT'])

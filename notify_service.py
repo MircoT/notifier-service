@@ -131,4 +131,7 @@ if __name__ == "__main__":
     SERVICE_CFG.username = argv[1]
     SERVICE_CFG.password = blake2s(argv[2].encode("ascii")).hexdigest()
     SERVICE_CFG.secret = argv[3]
-    APP.run(port=environ.get("PORT", 5555))
+    APP.run(
+        host="0.0.0.0",
+        port=environ.get("PORT", 5555)
+    )

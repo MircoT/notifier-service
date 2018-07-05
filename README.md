@@ -8,6 +8,7 @@ Install dependencies:
 
 ```bash
 pipenv install
+pipenv shell
 # OR
 pip install -r requirements.txt
 ```
@@ -41,4 +42,14 @@ After that you can use the service to send you message throught your service:
 curl -X POST localhost:5555/notify -d message="Hello World" -d service_token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJib3RfdG9rZW4iOiJmb29iYXIiLCJ1c2VyX2lkIjoidGVzdCIsImNoYXRfaWQiOiJ0ZXN0In0.l4thYfm2xUOaCOBWBMKzoYTlUsN1i4jDaAD8_gxdElA"
 # SUCCESS OUTPUT:
 # {"message_sent":"Hello World","status":"OK"}
+```
+
+## Docker image
+
+Build the image and launch the container with the parameters required by the service. Then you can use the same curl command of above.
+
+```bash
+docker build --tag notify_service .
+# Launch the container to test
+docker run -d --network=host notify_service admin password secret
 ```

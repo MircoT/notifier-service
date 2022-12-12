@@ -15,5 +15,5 @@ PyJWT==1.6.4
 pylint==1.9.2
 python-telegram-bot==10.1.0
 six==1.11.0
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 wrapt==1.10.11
